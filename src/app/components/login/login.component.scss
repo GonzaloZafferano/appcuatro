@@ -11,6 +11,7 @@
 
 *{
     color: white;
+    font-family: cursive;
 }
 
 .font-error-custom p {
@@ -18,7 +19,7 @@
     margin: 0;
     font-size: 1.20em;
     font-weight: bold;
-    color: rgb(246, 45, 45) !important;
+    color: rgb(0, 0, 0) !important;
 }
 
 .font-title-custom{
@@ -31,7 +32,7 @@ font-size: 1.6em;
 }
 
 .font-login-custom{
-font-size: 1.6em;
+font-size: 2.3em;
 font-weight: bold;
 padding: 5px !important;
 }
@@ -78,6 +79,6 @@ padding: 5px !important;
 .sombra{
     margin: 15px 0px;
     /*horizontal - vertical - difuminado - color*/
-    box-shadow: 2px 7px 5px rgba(0, 0, 0, 0.3),
-    -2px -7px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 7px 5px rgba(255, 255, 255, 0.3),
+    -2px -7px 5px rgba(255, 255, 255, 0.3);
 }

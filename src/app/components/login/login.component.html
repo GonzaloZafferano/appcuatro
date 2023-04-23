@@ -3,9 +3,10 @@
   <div class="imagen" style="margin: 1px;">
     <img src="assets/icon.png" alt="Imagen no disponible">
   </div>
-  <ion-card class="sombra " color="tertiary">
+  <ion-card class="sombra" style="margin-top: 30px;" color="tertiary">
     <ion-card-header>
-      <ion-card-title class="ion-text-center font-title-custom">Complete sus datos para ingresar</ion-card-title>
+      <ion-card-title class="ion-text-center font-title-custom">BIENVENIDO</ion-card-title>
+      <ion-card-title class="ion-text-center font-title-custom">Inicie sesión para comenzar con el juego de memoria</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <!--USUARIO-->
@@ -36,8 +37,8 @@
         <ion-row class="ion-align-items-center">
           <ion-col size="12" class="ion-text-center">
             <ion-button color="success" fill="solid" type="ion-button" (click)="login()" shape="round" id="btn-send">
-              <ion-title class="font-login-custom">Iniciar Sesión</ion-title>
-              <ion-icon slot="end" size="large" name="log-in"></ion-icon>
+              <ion-title class="font-login-custom text-dark">Ingresar</ion-title>
+              <!-- <ion-icon slot="end" size="large" name="log-in"></ion-icon> -->
             </ion-button>
           </ion-col>
         </ion-row>
@@ -51,34 +52,30 @@
   </ion-card>
 
   <!--boton flotante-->
-  <!-- <ion-content>
+
   <ion-fab vertical="top" horizontal="end">
-    <ion-button>
-      <ion-title>Usuario 1</ion-title>
-      <ion-icon name="add"></ion-icon>
-    </ion-button>
+    <ion-button expand="block" color="medium" fill="solid" type="Button" shape="round" id="btn-usuarioUno"
+    (click)="cargarUsuario(0)">
+    <ion-title class="font-login-custom">U 1</ion-title>
+    <!-- <ion-icon slot="start" size="large" name="person-circle"></ion-icon> -->
+  </ion-button>
+  <!--BOTON 2-->
+  <ion-button expand="full" color="medium" fill="solid" type="Button" shape="round" id="btn-usuarioDos"
+    (click)="cargarUsuario(1)">
+    <ion-title class="font-login-custom">U 2</ion-title>
+    <!-- <ion-icon slot="start" size="large" name="person-circle"></ion-icon> -->
+  </ion-button>
+  <!--BOTON 3-->
+  <ion-button expand="block" color="medium" fill="solid" type="Button" shape="round" id="btn-usuarioTres"
+    (click)="cargarUsuario(2)">
+    <ion-title class="font-login-custom">U 3</ion-title>
+    <!-- <ion-icon slot="start" size="large" name="person-circle"></ion-icon> -->
+  </ion-button>
   </ion-fab>
-</ion-content> -->
 
   <!--CENTRADO DE BOTONES CON BLOCK o FULL (ocupa todo el ancho)-->
   <div>
     <!--BOTON 1-->
-    <ion-button expand="block" color="medium" fill="solid" type="Button" shape="round" id="btn-usuarioUno"
-      (click)="cargarUsuario(0)">
-      <ion-title class="font-login-custom">Usuario 1</ion-title>
-      <ion-icon slot="start" size="large" name="person-circle"></ion-icon>
-    </ion-button>
-    <!--BOTON 2-->
-    <ion-button expand="full" color="medium" fill="solid" type="Button" shape="round" id="btn-usuarioDos"
-      (click)="cargarUsuario(1)">
-      <ion-title class="font-login-custom">Usuario 2</ion-title>
-      <ion-icon slot="start" size="large" name="person-circle"></ion-icon>
-    </ion-button>
-    <!--BOTON 3-->
-    <ion-button expand="block" color="medium" fill="solid" type="Button" shape="round" id="btn-usuarioTres"
-      (click)="cargarUsuario(2)">
-      <ion-title class="font-login-custom">Usuario 3</ion-title>
-      <ion-icon slot="start" size="large" name="person-circle"></ion-icon>
-    </ion-button>
+    
   </div>
 </div>
