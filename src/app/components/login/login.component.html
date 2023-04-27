@@ -3,17 +3,13 @@
   <div class="imagen" style="margin: 1px;">
     <img src="assets/icon.png" alt="Imagen no disponible">
   </div>
-  <ion-card class="sombra" style="margin-top: 30px;" color="tertiary">
-    <ion-card-header>
-      <ion-card-title class="ion-text-center font-title-custom">BIENVENIDO</ion-card-title>
-      <ion-card-title class="ion-text-center font-title-custom">Inicie sesión para comenzar con el juego de memoria</ion-card-title>
-    </ion-card-header>
+  <ion-card class="sombra" style="margin-top: 30px;" color="tertiary">    
     <ion-card-content>
       <!--USUARIO-->
       <div class="margin-custom">
         <ion-label class="ion-text-start bold font-input-custom">Ingrese su correo electrónico:</ion-label>
-        <ion-item>
-          <ion-input color="dark" type="text" placeholder="correo electrónico" #mail
+        <ion-item style="--background: #576CA8;">
+          <ion-input color="dark" class="inputs-custom ion-text-center" type="text" placeholder="" #mail
             (ionInput)="validadCampoVacio(mail)" name="email" [(ngModel)]="email"></ion-input>
         </ion-item>
         <div class="font-error-custom error-message-height">
@@ -23,8 +19,8 @@
       <!--CONTRASEÑA-->
       <div class="margin-custom">
         <ion-label class="ion-text-start bold font-input-custom">Ingrese su contraseña:</ion-label>
-        <ion-item>
-          <ion-input color="dark" type="password" placeholder="contraseña" #pass (ionInput)="validadCampoVacio(pass)"
+        <ion-item style="--background: #576CA8;">
+          <ion-input color="dark" class="inputs-custom ion-text-center" type="password" placeholder="" #pass (ionInput)="validadCampoVacio(pass)"
             [(ngModel)]="password"></ion-input>
         </ion-item>
         <div class="font-error-custom error-message-height">
@@ -49,6 +45,10 @@
       <!--SUGERENCIA-->
       <!-- <ion-label>¿No posee una cuenta? <span class="d-block">Regístrese <a href="/registro">AQUÍ</a></span></ion-label>  -->
     </ion-card-content>
+    <ion-card-header>
+      <ion-card-title class="ion-text-center font-title-custom">BIENVENIDO</ion-card-title>
+      <ion-card-title class="ion-text-center font-title-custom">Inicie sesión para comenzar con el juego de memoria</ion-card-title>
+    </ion-card-header>
   </ion-card>
 
   <!--boton flotante-->

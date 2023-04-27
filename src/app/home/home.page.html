@@ -1,9 +1,32 @@
-<div *ngIf="(afAuth.user | async); else loguearUsuario">
+<!-- <div *ngIf="(afAuth.user | async); else loguearUsuario">
   <app-bienvenido></app-bienvenido>
 </div>
 <ng-template #loguearUsuario>
 
    <app-login></app-login>
 
-</ng-template>
-
+</ng-template> -->
+<div class="contenedor">
+  <ion-header [translucent]="true">
+    <!-- <ion-title class="text-center">
+      <h3>
+        BIENVENIDO
+      </h3>
+    </ion-title> -->
+    <div class="d-flex justify-content-center p-2">
+      <ion-buttons>
+        <!-- <ion-button color="primary" fill="solid" shape="round" id="btn-flash" (click)="flash()">
+              <ion-title class="font-weight-bold">FLASH</ion-title>
+              <ion-icon  size="large" slot="end" name="log-out"></ion-icon>
+            </ion-button> -->
+        <ion-button color="warning" fill="solid" shape="round" id="btn-logout" (click)="logout()">
+          <ion-title class="font-weight-bold text-dark">SALIR</ion-title>
+          <!-- <ion-icon size="large" slot="end" name="log-out"></ion-icon> -->
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-header> 
+      <ion-button color="success" fill="solid" (click)="facil()" class="button-custom text-dark">Fácil</ion-button>    
+      <ion-button color="success" fill="solid" (click)="medio()" class="button-custom text-dark">Medio</ion-button>   
+      <ion-button color="success" fill="solid" (click)="dificil()" class="button-custom text-dark">Difícil</ion-button> 
+</div>

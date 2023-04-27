@@ -21,6 +21,18 @@ export const routes: Routes = [
     loadComponent: () => import('./splash/splash.page').then( m => m.SplashPage)
   },
   {
+    path: 'facil',
+    loadComponent: () => import('./components/facil/facil.component').then( m => m.FacilComponent)
+  },
+  {
+    path: 'medio',
+    loadComponent: () => import('./components/medio/medio.component').then( m => m.MedioComponent)
+  },
+  {
+    path: 'dificil',
+    loadComponent: () => import('./components/dificil/dificil.component').then( m => m.DificilComponent)
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full',

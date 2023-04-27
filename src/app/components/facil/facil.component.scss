@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 100vh;
+  }
+  
+  .box {
+    width: calc(50% - 10px);
+    max-height: calc(30%);
+    margin: 10px 0;
+  }
+  

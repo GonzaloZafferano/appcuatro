@@ -1,0 +1,5 @@
+<div class="container">
+  <div class="box" *ngFor="let rutaImagen of rutasImagenes; let i = index" >
+    <app-carta [indice]="i" [rutaImagen]="rutaImagen" (OnCartaSeleccionada)="imagenSeleccionada($event)"></app-carta>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+
+<div class="contenedor-de-carta"  [class.habilitado]="!habilitado">
+  <div >
+    <img [src]="rutaImagenAlReves" class="imagen-carta rotacion" [class.carta-trasera]="!frente" (click)="darVuelta()">
+  </div>
+  <div >
+    <img [src]="rutaImagen" class="imagen-carta rotacion" [class.carta-frente]="frente" (click)="darVuelta()">
+  </div>
+</div>

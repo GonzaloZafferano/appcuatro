@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario';
+import { LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -33,16 +34,16 @@ export class LoginComponent implements OnInit {
   mensajeError: string = '';
   mensajePass: string = '';
   mensajeEmail: string = '';
-  usuarios : Usuario [] = [];
-  ruta : string = "/resources/icon.png";
-  constructor(private loginService: LoginService, private router:Router) { }
+  usuarios: Usuario[] = [];
+  ruta: string = "/resources/icon.png";
+  constructor(private loginService: LoginService, private router: Router, public loadingController: LoadingController) { }
   ngOnInit() {
     this.usuarios.push(new Usuario('gonzalo@prueba.com', '123456'));
     this.usuarios.push(new Usuario('silas@prueba.com', '654321'));
-    this.usuarios.push(new Usuario('nico@prueba.com','111111'));
-   }
+    this.usuarios.push(new Usuario('nico@prueba.com', '111111'));
+  }
 
-  login() {   
+  async login() {
     let errorEnDatos = false;
     let emailValido = false;
 
@@ -69,15 +70,21 @@ export class LoginComponent implements OnInit {
         this.mensajePass = '';
 
     if (!errorEnDatos && emailValido) {
-      this.loginService.loguearUsuario(this.email, this.password)
-      .then(() => {
-        this.limpiarCampos();
-        this.router.navigate(['/home']);
+      const loading = await this.presentLoading();
 
-        //this.addNewItem(true);
-      }).catch(() => {
-        this.mensajeError = "Correo o contraseña inválidos.";
-      });
+      setTimeout(() => {
+        this.loginService.loguearUsuario(this.email, this.password)
+          .then(() => {
+            this.limpiarCampos();
+            this.router.navigate(['/home']);
+            loading.dismiss(); 
+            //this.addNewItem(true);
+          }).catch(() => {
+            this.mensajeError = "Correo o contraseña inválidos.";
+            loading.dismiss(); 
+          });
+      }, 2000);
+
     } else {
       this.mensajeError = 'Corrija los errores y vuelva a intentar.';
     }
@@ -105,7 +112,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  limpiarCampos(){
+  limpiarCampos() {
     this.email = '';
     this.password = '';
   }
@@ -122,22 +129,34 @@ export class LoginComponent implements OnInit {
     this.newItemEvent.emit(value);
   }
 
-  registrar(){  
+  registrar() {
     this.router.navigate(['/registro']);
   }
 
-  limpiarErrores(){
+  limpiarErrores() {
     this.mensajeEmail = '';
     this.mensajeError = '';
     this.mensajePass = '';
   }
-  
-  cargarUsuario(indice : number){
-    if(indice >= 0 && indice < this.usuarios.length){
+
+  cargarUsuario(indice: number) {
+    if (indice >= 0 && indice < this.usuarios.length) {
       this.limpiarErrores();
       let usuario = this.usuarios[indice];
       this.email = usuario.usuario;
       this.password = usuario.password;
     }
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Obteniendo datos...',
+      spinner: 'dots',
+      translucent: true,
+      cssClass: 'custom-class'
+    });
+
+    await loading.present();
+    return loading;
   }
 }
