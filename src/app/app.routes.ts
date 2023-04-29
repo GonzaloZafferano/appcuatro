@@ -25,6 +25,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/facil/facil.component').then( m => m.FacilComponent)
   },
   {
+    path: 'ganadorfacil',
+    loadComponent: () => import('./components/listafacil/listafacil.component').then( m => m.ListafacilComponent)
+  },
+  {
     path: 'medio',
     loadComponent: () => import('./components/medio/medio.component').then( m => m.MedioComponent)
   },

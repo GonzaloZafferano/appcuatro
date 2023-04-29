@@ -17,12 +17,19 @@ h3 {
 }
 
 .button-custom {
-  font-size: 4em;
+  font-size: 3.3em;
   font-weight: bold;
   padding: 0px !important;
   height: 30vh !important;
-  width: 98vw;
+  width: 70vw;
   margin: 3px;
   // background: linear-gradient(to bottom, #ff9900, #ff6600) !important;
   // border-radius: 30px;
+}
+
+.texto-vertical{
+  width: 26vw;
+  height: 30vh !important;
+
+vertical-align: top;
 }

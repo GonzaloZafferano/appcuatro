@@ -4,6 +4,7 @@ import { HomePage } from './home/home.page';
 import { Router } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AnimationTriggerMetadata, animate, style, transition, trigger } from '@angular/animations';
+import { FirestoreModule } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-root',

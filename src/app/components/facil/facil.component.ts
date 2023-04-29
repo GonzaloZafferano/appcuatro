@@ -5,6 +5,8 @@ import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Ganador } from 'src/app/models/ganador';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { collection } from '@angular/fire/firestore';
 //import { InteraccionbdService } from 'src/app/services/interaccionbd.service';
 //import { AngularFirestore } from '@angular/fire/compat/firestore';
 
@@ -31,19 +33,21 @@ export class FacilComponent implements OnInit {
   ultimaImagen: any = undefined;
   momentoInicio: Date = new Date();
   ganadores: any[] = [];
+  correoUsuario: string = '';
 
-  constructor(
+  constructor(private firestore: FirestoreService,
     public toastController: ToastController, public router: Router, private auth: AngularFireAuth) { }
 
   ngOnInit() {
     this.rutasImagenes.sort(this.numeroAleatorio);
 
-    // this.interaccion.obtenerGanadoresFacil()
-    //   .subscribe(
-    //     x => {
-    //       this.ganadores = Object.values(x);
-    //     }
-    //   );
+    this.auth.currentUser.then((x) => {
+      this.correoUsuario = x?.email ? x.email : '';
+    });
+
+    this.firestore.obtenerGanadores().subscribe((info) => {
+      this.ganadores = info;
+    });
   }
 
   volverAlInicio() {
@@ -55,13 +59,11 @@ export class FacilComponent implements OnInit {
   }
 
   recargarImagenes() {
-
     this.img.map(x => {
       x.habilitado = true;
       x.frente = false;
     });
     this.rutasImagenes.sort(this.numeroAleatorio);
-
   }
 
   limpiar() {
@@ -95,14 +97,19 @@ export class FacilComponent implements OnInit {
               if (this.cantidadAciertos == 3) {
 
                 let momentoFin = new Date();
-                let tiempo = this.obtenerMinutosYSegundos(momentoFin);
-                let minutos = tiempo.minutos < 10 ? "0" + tiempo.minutos : tiempo.minutos;
+                let tiempo = this.obtenerSegundosYMilisegundos(momentoFin);
+                let milisegundos = tiempo.milisegundos < 10 ? "0" + tiempo.milisegundos : tiempo.milisegundos;
                 let segundos = tiempo.segundos < 10 ? "0" + tiempo.segundos : tiempo.segundos;
 
-                this.verificarPuestos(tiempo.minutos, tiempo.segundos);
+                let hayGanador = this.verificarPuestos(tiempo.segundos, tiempo.milisegundos);
+
+                let mensaje = `Felicitaciones! Su tiempo ha sido: ${segundos}s ${milisegundos}ms. `
+                if(hayGanador){
+                  mensaje += "Además, ha ingresado al TOP 5 de ganadores!"                  
+                }
 
                 const toast = await this.toastController.create({
-                  message: `Felicitaciones! Su tiempo ha sido: ${minutos}:${segundos}`,
+                  message: mensaje,
                   buttons: [
                     {
                       text: 'Volver al inicio',
@@ -120,7 +127,7 @@ export class FacilComponent implements OnInit {
                   ],
                   // duration: 2000, //AL NO TENER DURACION, ES ETERNO
                   color: 'secondary',
-                  animated: true, 
+                  animated: true,
                   position: 'top',
                   cssClass: 'my-custom-class'
                 });
@@ -144,52 +151,44 @@ export class FacilComponent implements OnInit {
     }, 1000);
   }
 
-
-  obtenerMinutosYSegundos(momentoFin: Date) {
-    let differencia = momentoFin.getTime() - this.momentoInicio.getTime();
-    let minutos = Math.floor(differencia / 60000); //Un minuto = 60000 milisegundos (1 seg = 1000 miliseg. 60 seg = 60000 miliseg)
-    let segundos = Math.floor((differencia - minutos * 60000) / 1000);
-    return { minutos: minutos, segundos: segundos };
+  obtenerSegundosYMilisegundos(momentoFin: Date) {
+    let diferencia = momentoFin.getTime() - this.momentoInicio.getTime();
+    let minutos = Math.floor(diferencia / 60000); //Un minuto = 60000 milisegundos (1 seg = 1000 miliseg. 60 seg = 60000 miliseg)
+    let segundos = Math.floor((diferencia - minutos * 60000) / 1000);
+    let milisegundos = diferencia;
+    return { segundos: segundos, milisegundos : milisegundos};
   }
 
-  verificarPuestos(minutos: number, segundos: number) {
+  verificarPuestos(segundos: number, milisegundos : number) {
+    //Si ganador es true, quiere decir que lo tengo que meter en el top 5.
     let hayGanador = false;
 
     if (this.ganadores.length < 5) {
       hayGanador = true;
     } else {
       for (let i = 0; i < this.ganadores.length; i++) {
-        if (minutos < this.ganadores[i].minutos ||
-          (minutos == this.ganadores[i].minutos &&
-            segundos < this.ganadores[i].segundos)) {
+        if (segundos < this.ganadores[i].segundos ||
+          (segundos == this.ganadores[i].segundos &&
+            milisegundos < this.ganadores[i].milisegundos)) {
           hayGanador = true;
+          let ganadoresOrdenados = this.ganadores.sort(this.ordenar);
+          let ultimoPuesto = ganadoresOrdenados.pop();
+          this.firestore.eliminarGanador(ultimoPuesto.id);
           break;
         }
       }
     }
-
     if (hayGanador) {
-    //  let usuario = this.auth.currentUser;
-let date = new Date().toString();
-debugger;
-//CARGAR LISTA DE BASE
-let ganador = new Ganador('', date, minutos, segundos);
-//this.firestore.collection('ganadores').add(ganador);
-
-      if (this.ganadores.length == 5) {
-        this.ganadores.sort(this.ordenar);
-        this.ganadores.pop();
-      }
-      this.ganadores.push(ganador);
-     // this.interaccion.guardarGanadoresFacil(this.ganadores);
-
+      let ganador = new Ganador(this.correoUsuario, new Date(), segundos, milisegundos, '');
+      this.firestore.guardar(ganador);
     }
+    return hayGanador;
   }
 
   ordenar(ganador1: Ganador, ganador2: Ganador) {
-    if (ganador1.minutos < ganador2.minutos ||
-      (ganador1.minutos == ganador2.minutos &&
-        ganador1.segundos < ganador2.segundos)) {
+    if (ganador1.segundos < ganador2.segundos ||
+      (ganador1.segundos == ganador2.segundos &&
+        ganador1.milisegundos < ganador2.milisegundos)) {
       return -1;
     }
     return 1;

@@ -14,7 +14,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class SplashPage implements OnInit {
   usuarioLogueado : boolean = false;
-
   constructor(private router:Router, private angularFireAuth: AngularFireAuth) {
     this.usuarioEstaLogueado();
     setTimeout(() => {
@@ -27,9 +26,7 @@ export class SplashPage implements OnInit {
    }
 
   ngOnInit() {
-  }
-
-    //Metodo sirve, pero no lo puedo estar llamando a cada instante.
+  }   
    usuarioEstaLogueado(){
        this.angularFireAuth.authState.subscribe(user => {
         //' !! ': Convierte a la variable en booleano. Si es null o undefined, es FALSE, caso contrario TRUE.

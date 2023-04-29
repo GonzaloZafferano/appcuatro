@@ -96,7 +96,9 @@ export class HomePage implements OnInit {
     this.router.navigate(['/dificil']);
 
   }
-
+  ganadores(){
+    this.router.navigate(['/ganadorfacil']);
+  }
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Cerrando sesión...',

@@ -1,0 +1,34 @@
+<div class="contenedor">
+  <ion-header [translucent]="true">
+    <!-- <ion-title class="text-center">
+      <h3>
+        BIENVENIDO
+      </h3>
+    </ion-title> -->
+    <div class="d-flex justify-content-center p-2">
+      <ion-buttons>
+        <!-- <ion-button color="primary" fill="solid" shape="round" id="btn-flash" (click)="flash()">
+              <ion-title class="font-weight-bold">FLASH</ion-title>
+              <ion-icon  size="large" slot="end" name="log-out"></ion-icon>
+            </ion-button> -->
+        <ion-button color="warning" fill="solid" shape="round" id="btn-logout" (click)="volverInicio()">
+          <ion-title class="font-weight-bold text-dark">Volver al inicio</ion-title>
+          <!-- <ion-icon size="large" slot="end" name="log-out"></ion-icon> -->
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-header>
+
+  <h3 class="text-center titulo">Lista de ganadores</h3>
+  <p class="text-center subtitulo">(nivel fácil)</p>
+  <div *ngFor="let ganador of ganadores">
+    <ion-item class="custom-item">
+      <div>
+        <p class="item text-dark">Nombre: {{ganador.nombre}} </p>
+        <p class="item text-dark">Fecha: {{obtenerFechaString(ganador)}} </p>
+        <p class="item text-dark">Record: {{ganador.segundos}}:{{ganador.milisegundos}}</p>
+      </div>
+    </ion-item>
+  </div>
+
+</div>

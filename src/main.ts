@@ -9,6 +9,9 @@ import { environment } from './environments/environment';
 
 //Agregamos ESTO
 import { AngularFireModule } from '@angular/fire/compat';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getFirestore } from 'firebase/firestore';
+import { provideFirestore } from '@angular/fire/firestore';
 
 if (environment.production) {
   enableProdMode();
@@ -20,7 +23,14 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(IonicModule.forRoot({})),
 
     //Y ESTO
-    importProvidersFrom(AngularFireModule.initializeApp(environment.firebaseConfig)),
-    provideRouter(routes)
+    provideRouter(routes),
+
+    importProvidersFrom(
+      AngularFireModule.initializeApp(environment.firebaseConfig),
+
+      //SUPER NECESARIO PARA INTERACTUAR CON FIRESTORE
+      provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+      provideFirestore(() => getFirestore()),
+    )
   ],
 });
