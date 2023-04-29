@@ -38,9 +38,10 @@ export class LoginComponent implements OnInit {
   ruta: string = "/resources/icon.png";
   constructor(private loginService: LoginService, private router: Router, public loadingController: LoadingController) { }
   ngOnInit() {
-    this.usuarios.push(new Usuario('gonzalo@prueba.com', '123456'));
-    this.usuarios.push(new Usuario('silas@prueba.com', '654321'));
-    this.usuarios.push(new Usuario('nico@prueba.com', '111111'));
+    this.usuarios.push(new Usuario('admin@admin.com', '111111'));
+    this.usuarios.push(new Usuario('invitado@invitado.com', '222222'));
+    this.usuarios.push(new Usuario('usuario@usuario.com', '333333'));
+    this.usuarios.push(new Usuario('tester@tester.com', '555555'));
   }
 
   async login() {
@@ -150,8 +151,8 @@ export class LoginComponent implements OnInit {
 
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Obteniendo datos...',
-      spinner: 'dots',
+      message: 'Obteniendo datos',
+      spinner: 'bubbles',
       translucent: true,
       cssClass: 'custom-class'
     });

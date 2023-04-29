@@ -29,6 +29,14 @@ export const routes: Routes = [
     loadComponent: () => import('./components/listafacil/listafacil.component').then( m => m.ListafacilComponent)
   },
   {
+    path: 'ganadormedio',
+    loadComponent: () => import('./components/listamedio/listamedio.component').then( m => m.ListamedioComponent)
+  },
+  {
+    path: 'ganadordificil',
+    loadComponent: () => import('./components/listadificil/listadificil.component').then( m => m.ListadificilComponent)
+  },
+  {
     path: 'medio',
     loadComponent: () => import('./components/medio/medio.component').then( m => m.MedioComponent)
   },

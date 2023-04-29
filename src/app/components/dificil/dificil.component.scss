@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.box {
+  width: calc(50% - 10px);
+  max-height: calc(30%);
+  margin: 10px 0;
+}
+
+ion-label{
+font-weight: 300;
+font-family: cursive;
+font-size: 1.2em;
+align-self: center;
+
+}
+
+ion-button{
+font-weight: bold;
+font-family: cursive;
+font-size: 1.1em;
+}
+
+ion-toast.my-custom-toast::part(message) {
+  //font-style: italic;
+  font-weight: bold;
+  font-family: cursive;
+  font-size: 2em;
+ // height: 500px;
+  line-height: 35px;
+}
+
+ion-toast.my-custom-toast::part(button) {
+ // border-left: 1px solid #d2d2d2;
+ background-color: #A2CDD2;
+ border-radius: 20px;
+ margin: 5px;
+  color: #030207;
+  font-weight: bold;
+  font-family: cursive;
+  font-size: 1.2em;
+}
+
+ion-toast.my-custom-toast {
+  --color: #ffffff;
+  --border-color: #000000;
+  --border-radius: 20px;
+  --border-style: solid;
+  --border-width: 1px;
+  --background: #576CA8;
+  --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  //--button-color: #ffffff; //color letra del boton
+  //--height : 400px; //LO FUERZO A ESE ALTO 
+  /*
+
+  
+--background	Background of the toast
+--border-color	Border color of the toast
+--border-radius	Border radius of the toast
+--border-style	Border style of the toast
+--border-width	Border width of the toast
+--box-shadow	Box shadow of the toast
+--button-color	Color of the button text
+--color	Color of the toast text
+--end	Position from the right if direction is left-to-right, and from the left if direction is right-to-left
+--height	Height of the toast
+--max-height	Maximum height of the toast
+--max-width	Maximum width of the toast
+--min-height	Minimum height of the toast
+--min-width	Minimum width of the toast
+--start	Position from the left if direction is left-to-right, and from the right if direction is right-to-left
+--white-space	White space of the toast message
+--width	Width of the toast
+*/
+}

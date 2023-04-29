@@ -1,24 +1,45 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CartaComponent } from '../carta/carta.component';
-import { ToastController } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Ganador } from 'src/app/models/ganador';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { collection } from '@angular/fire/firestore';
+import { setInterval } from 'timers';
 //import { InteraccionbdService } from 'src/app/services/interaccionbd.service';
 //import { AngularFirestore } from '@angular/fire/compat/firestore';
+
+import * as process from 'process';
+import { interval } from 'rxjs';
+(window as any).process = process;
 
 @Component({
   selector: 'app-facil',
   templateUrl: './facil.component.html',
   styleUrls: ['./facil.component.scss'],
   standalone: true,
-  imports: [CommonModule, CartaComponent]
+  imports: [CommonModule, CartaComponent, IonicModule]
 })
 export class FacilComponent implements OnInit {
-
+  isToastOpen = false;
+  mensajeToast = '';
+  toastButtons = [
+    {
+      text: 'Volver al inicio',
+      //role: 'cancel', //CIERRA EL TOAST AUTOMATICAMENTE
+      handler: () => {
+        this.volverAlInicio()
+      }
+    },
+    {
+      text: 'Repetir',
+      handler: () => {
+        this.repetirPartida()
+      }
+    }
+  ];
   rutasImagenes: string[] = [
     '/assets/imagenes/leon.jpg',
     '/assets/imagenes/leon.jpg',
@@ -34,13 +55,20 @@ export class FacilComponent implements OnInit {
   momentoInicio: Date = new Date();
   ganadores: any[] = [];
   correoUsuario: string = '';
+  mensajeTiempo: string = '00s 000ms';
+  intervaloActivo: any = null;
+  tiempoObtendo: any = null;
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
+  }
 
   constructor(private firestore: FirestoreService,
-    public toastController: ToastController, public router: Router, private auth: AngularFireAuth) { }
+    public toastController: ToastController, public router: Router, private auth: AngularFireAuth) {
+
+  }
 
   ngOnInit() {
-    this.rutasImagenes.sort(this.numeroAleatorio);
-
+    this.limpiar();
     this.auth.currentUser.then((x) => {
       this.correoUsuario = x?.email ? x.email : '';
     });
@@ -52,6 +80,7 @@ export class FacilComponent implements OnInit {
 
   volverAlInicio() {
     this.router.navigate(['/home']);
+    this.limpiar();
   }
 
   repetirPartida() {
@@ -63,6 +92,8 @@ export class FacilComponent implements OnInit {
       x.habilitado = true;
       x.frente = false;
     });
+
+    this.rutasImagenes.sort(this.numeroAleatorio);
     this.rutasImagenes.sort(this.numeroAleatorio);
   }
 
@@ -72,13 +103,44 @@ export class FacilComponent implements OnInit {
     this.cantidadAciertos = 0;
     this.ultimaImagen = undefined;
     this.momentoInicio = new Date();
+    this.mensajeToast = '';
+    this.mensajeTiempo = '00s 000ms';
+    this.setOpen(false);
+    if (this.intervaloActivo) {
+      this.intervaloActivo.unsubscribe();
+      this.intervaloActivo = null;
+    }
+    this.tiempoObtendo = null;
   }
 
   numeroAleatorio() {
     return Math.random() - 0.5;
   }
 
-  imagenSeleccionada(event: any) {
+  async imagenSeleccionada(event: any) {
+    this.img.push(event);
+    let primerIngreso = false;
+    if (!this.intervaloActivo) {
+      this.momentoInicio = new Date();
+      this.intervaloActivo = interval(100).subscribe(() => {
+        this.tiempoObtendo = this.obtenerSegundosYMilisegundos(new Date());
+
+        if(this.tiempoObtendo.segundos == 0 && primerIngreso){
+          this.mensajeToast = "Se acabo el tiempo!";
+          this.intervaloActivo.unsubscribe();
+          this.setOpen(true);
+        }
+        else {
+
+          if(this.tiempoObtendo.segundos > 0)
+          primerIngreso = true;
+          let milisegundos = this.tiempoObtendo.milisegundos < 10 ? "0" + this.tiempoObtendo.milisegundos : this.tiempoObtendo.milisegundos;
+          let segundos = this.tiempoObtendo.segundos < 10 ? "0" + this.tiempoObtendo.segundos : this.tiempoObtendo.segundos;
+          this.mensajeTiempo = `${segundos}s ${milisegundos}ms`;
+        } 
+      });
+    }
+
     setTimeout(async () => {
       if (!this.indicesAcertados.includes(event.indice)) {
         if (this.ultimaImagen != undefined) {
@@ -89,49 +151,51 @@ export class FacilComponent implements OnInit {
               event.habilitado = false;
               this.indicesAcertados.push(this.ultimaImagen.indice);
               this.indicesAcertados.push(event.indice);
-              this.img.push(event);
-              this.img.push(this.ultimaImagen);
+              //this.img.push(event);
+              //this.img.push(this.ultimaImagen);
               this.ultimaImagen = undefined;
               this.cantidadAciertos++;
 
               if (this.cantidadAciertos == 3) {
 
-                let momentoFin = new Date();
-                let tiempo = this.obtenerSegundosYMilisegundos(momentoFin);
-                let milisegundos = tiempo.milisegundos < 10 ? "0" + tiempo.milisegundos : tiempo.milisegundos;
-                let segundos = tiempo.segundos < 10 ? "0" + tiempo.segundos : tiempo.segundos;
+                //let momentoFin = new Date();
+                this.intervaloActivo.unsubscribe();
+                //let tiempo = this.obtenerSegundosYMilisegundos(momentoFin);
+                let milisegundos = this.tiempoObtendo.milisegundos < 10 ? "0" + this.tiempoObtendo.milisegundos : this.tiempoObtendo.milisegundos;
+                let segundos = this.tiempoObtendo.segundos < 10 ? "0" + this.tiempoObtendo.segundos : this.tiempoObtendo.segundos;
 
-                let hayGanador = this.verificarPuestos(tiempo.segundos, tiempo.milisegundos);
+                let hayGanador = this.verificarPuestos(this.tiempoObtendo.segundos, this.tiempoObtendo.milisegundos);
 
-                let mensaje = `Felicitaciones! Su tiempo ha sido: ${segundos}s ${milisegundos}ms. `
-                if(hayGanador){
-                  mensaje += "Además, ha ingresado al TOP 5 de ganadores!"                  
+                this.mensajeToast = `Felicitaciones! Su tiempo ha sido: ${segundos}s ${milisegundos}ms. `
+                if (hayGanador) {
+                  this.mensajeToast += "Además, ha ingresado al TOP 5 de ganadores!"
                 }
 
-                const toast = await this.toastController.create({
-                  message: mensaje,
-                  buttons: [
-                    {
-                      text: 'Volver al inicio',
-                      //role: 'cancel', //CIERRA EL TOAST AUTOMATICAMENTE
-                      handler: () => {
-                        this.volverAlInicio()
-                      }
-                    },
-                    {
-                      text: 'Repetir',
-                      handler: () => {
-                        this.repetirPartida()
-                      }
-                    }
-                  ],
-                  // duration: 2000, //AL NO TENER DURACION, ES ETERNO
-                  color: 'secondary',
-                  animated: true,
-                  position: 'top',
-                  cssClass: 'my-custom-class'
-                });
-                toast.present();
+                this.setOpen(true);
+                // const toast = await this.toastController.create({
+                //   message: mensaje,
+                //   buttons: [
+                //     {
+                //       text: 'Volver al inicio',
+                //       //role: 'cancel', //CIERRA EL TOAST AUTOMATICAMENTE
+                //       handler: () => {
+                //         this.volverAlInicio()
+                //       }
+                //     },
+                //     {
+                //       text: 'Repetir',
+                //       handler: () => {
+                //         this.repetirPartida()
+                //       }
+                //     }
+                //   ],
+                //   // duration: 2000, //AL NO TENER DURACION, ES ETERNO
+                //   color: 'secondary',
+                //   animated: true,
+                //   position: 'top',
+                //   cssClass: 'my-custom-toast'
+                // });
+                // toast.present();
               }
             }
             else {
@@ -155,11 +219,16 @@ export class FacilComponent implements OnInit {
     let diferencia = momentoFin.getTime() - this.momentoInicio.getTime();
     let minutos = Math.floor(diferencia / 60000); //Un minuto = 60000 milisegundos (1 seg = 1000 miliseg. 60 seg = 60000 miliseg)
     let segundos = Math.floor((diferencia - minutos * 60000) / 1000);
-    let milisegundos = diferencia;
-    return { segundos: segundos, milisegundos : milisegundos};
+    let milisegundos = 0;
+    if (diferencia < 1000)
+      milisegundos = diferencia;
+    else    
+      milisegundos = Math.floor((diferencia/1000 - Math.floor(diferencia/1000)) *1000);
+    
+    return { segundos: segundos, milisegundos: milisegundos };
   }
 
-  verificarPuestos(segundos: number, milisegundos : number) {
+  verificarPuestos(segundos: number, milisegundos: number) {
     //Si ganador es true, quiere decir que lo tengo que meter en el top 5.
     let hayGanador = false;
 

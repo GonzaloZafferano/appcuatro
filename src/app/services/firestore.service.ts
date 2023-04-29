@@ -11,6 +11,10 @@ import { Ganador } from '../models/ganador';
 export class FirestoreService {
   private ganadores: CollectionReference<DocumentData> =
     collection(this.firestore, 'ganadores');
+    private ganadoresMedio: CollectionReference<DocumentData> =
+    collection(this.firestore, 'ganadoresMedio');
+    private ganadoresDificil: CollectionReference<DocumentData> =
+    collection(this.firestore, 'ganadoresDificil');
 
   constructor(private firestore: Firestore) { }
 
@@ -37,6 +41,62 @@ export class FirestoreService {
 
   eliminarGanador(id: string) {
     const coleccion = collection(this.firestore, 'ganadores');
+    const documento = doc(coleccion, id);
+    deleteDoc(documento);
+  }
+
+//Medio
+  guardarMedio(ganador: Ganador) {
+    const documentoNuevo = doc(this.ganadoresMedio);
+    const nuevoId = documentoNuevo.id;
+
+    setDoc(documentoNuevo, {
+      nombre: ganador.usuario,
+      milisegundos: ganador.milisegundos,
+      segundos: ganador.segundos,
+      fecha: ganador.fecha,
+      id: nuevoId
+    });
+  }
+
+  obtenerGanadoresMedio() {
+    let coleccion = collection(this.firestore, 'ganadoresMedio');
+
+    let q = query(coleccion);
+
+    return collectionData(q);
+  }
+
+  eliminarGanadorMedio(id: string) {
+    const coleccion = collection(this.firestore, 'ganadoresMedio');
+    const documento = doc(coleccion, id);
+    deleteDoc(documento);
+  }
+
+  //Dificil
+  guardarDificil(ganador: Ganador) {
+    const documentoNuevo = doc(this.ganadoresDificil);
+    const nuevoId = documentoNuevo.id;
+
+    setDoc(documentoNuevo, {
+      nombre: ganador.usuario,
+      milisegundos: ganador.milisegundos,
+      segundos: ganador.segundos,
+      fecha: ganador.fecha,
+      id: nuevoId
+    });
+  }
+
+  obtenerGanadoresDificil() {
+    let coleccion = collection(this.firestore, 'ganadoresDificil');
+
+    let q = query(coleccion);
+
+    return collectionData(q);
+  }
+
+  eliminarGanadorDificil(id: string) {
+    const coleccion = collection(this.firestore, 'ganadoresDificil');
     const documento = doc(coleccion, id);
     deleteDoc(documento);
   }

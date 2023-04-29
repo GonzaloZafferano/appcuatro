@@ -83,26 +83,82 @@ export class HomePage implements OnInit {
 
   }
 
-  facil() {
+  async facil() {
+    const loading = await this.loadingGame();
     this.router.navigate(['/facil']);
+    setTimeout(() => {        
+      loading.dismiss();
+    }, 2000);
   }
 
-  medio() {
+  async medio() {
+    const loading = await this.loadingGame();
     this.router.navigate(['/medio']);
-
+    setTimeout(() => {        
+      loading.dismiss();
+    }, 2000);
   }
 
-  dificil() {
+  async dificil() {
+    const loading = await this.loadingGame();
     this.router.navigate(['/dificil']);
-
+    setTimeout(() => {        
+      loading.dismiss();
+    }, 2000);
   }
-  ganadores(){
+  async ganadores(){
+    const loading = await this.loadingData();
     this.router.navigate(['/ganadorfacil']);
+
+    setTimeout(() => {        
+      loading.dismiss();
+    }, 2000);
+  }
+
+ async  ganadoresMedio(){
+    const loading = await this.loadingData();
+    this.router.navigate(['/ganadormedio']);
+    setTimeout(() => {        
+      loading.dismiss();
+    }, 2000);
+  }
+
+  async ganadoresDificil(){
+    const loading = await this.loadingData();
+    this.router.navigate(['/ganadordificil']);
+
+    setTimeout(() => {        
+      loading.dismiss();
+    }, 2000);
   }
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Cerrando sesión...',
-      spinner: 'dots',
+      message: 'Cerrando sesión',
+      spinner: 'bubbles',
+      translucent: true,
+      cssClass: 'custom-class'
+    });
+
+    await loading.present();
+    return loading;
+  }
+
+  async loadingData(){
+    const loading = await this.loadingController.create({
+      message: 'Cargando listado de ganadores',
+      spinner: 'bubbles',
+      translucent: true,
+      cssClass: 'custom-class'
+    });
+
+    await loading.present();
+    return loading;
+  }
+
+  async loadingGame(){
+    const loading = await this.loadingController.create({
+      message: 'Cargando juego',
+      spinner: 'bubbles',
       translucent: true,
       cssClass: 'custom-class'
     });

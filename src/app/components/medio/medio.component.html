@@ -1,3 +1,15 @@
-<p>
-  medio works!
-</p>
+<ion-header style="height: 43px; display: flex; justify-content: space-between;">
+  <ion-label>Tiempo: {{mensajeTiempo}}</ion-label> 
+  <ion-button shape="round" color="warning" (click)="volverAlInicio()">Volver</ion-button>
+</ion-header>
+  <div class="container">
+    <!-- <ion-button expand="block" (click)="setOpen(true)">Open</ion-button> -->
+    <!--
+      [duration]="5000"
+    -->    
+    <ion-toast [isOpen]="isToastOpen" [message]="mensajeToast" position="top" class="my-custom-toast"
+    [buttons]="toastButtons" (didDismiss)="setOpen(false)" layout="stacked"></ion-toast>
+    <div class="box" *ngFor="let rutaImagen of rutasImagenes; let i = index">
+      <app-carta [indice]="i" [rutaImagen]="rutaImagen" (OnCartaSeleccionada)="imagenSeleccionada($event)"></app-carta>
+  </div>
+</div>

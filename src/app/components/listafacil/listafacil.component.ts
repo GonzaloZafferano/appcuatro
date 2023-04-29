@@ -17,16 +17,14 @@ export class ListafacilComponent implements OnInit {
   constructor(private firestore: FirestoreService, private router: Router,public loadingController: LoadingController) { }
   ganadores: any[] = [];
   ngOnInit() {
-
-    this.cargar();
- 
+    this.cargar(); 
   }
 
  cargar(){
-  let loading = this.presentLoading();
+ // let loading = this.presentLoading();
   this.firestore.obtenerGanadores().subscribe(async (info) => {
     this.ganadores = info.sort(this.ordenar);
-   (await loading).dismiss(); 
+  // (await loading).dismiss(); 
   });
 }
   volverInicio(){
@@ -58,8 +56,8 @@ export class ListafacilComponent implements OnInit {
 
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Obteniendo datos...',
-      spinner: 'dots',
+      message: 'Obteniendo datos',
+      spinner: 'bubbles',
       translucent: true,
       cssClass: 'custom-class'
     });
