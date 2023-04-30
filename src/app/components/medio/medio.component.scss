@@ -13,7 +13,7 @@
 
 ion-label{
 font-weight: 300;
-font-family: cursive;
+font-family: 'Comic Neue',cursive;
 font-size: 1.2em;
 align-self: center;
 
@@ -21,14 +21,14 @@ align-self: center;
 
 ion-button{
 font-weight: bold;
-font-family: cursive;
+font-family: 'Comic Neue',cursive;
 font-size: 1.1em;
 }
 
 ion-toast.my-custom-toast::part(message) {
   //font-style: italic;
   font-weight: bold;
-  font-family: cursive;
+  font-family: 'Comic Neue',cursive;
   font-size: 2em;
  // height: 500px;
   line-height: 35px;
@@ -41,7 +41,7 @@ ion-toast.my-custom-toast::part(button) {
  margin: 5px;
   color: #030207;
   font-weight: bold;
-  font-family: cursive;
+  font-family: 'Comic Neue',cursive;
   font-size: 1.2em;
 }
 

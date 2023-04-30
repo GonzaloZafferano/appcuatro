@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario';
 import { LoadingController } from '@ionic/angular';
-
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -36,12 +36,17 @@ export class LoginComponent implements OnInit {
   mensajeEmail: string = '';
   usuarios: Usuario[] = [];
   ruta: string = "/resources/icon.png";
-  constructor(private loginService: LoginService, private router: Router, public loadingController: LoadingController) { }
+  constructor(private loginService: LoginService, private router: Router, public loadingController: LoadingController,
+    private platform: Platform    ) { }
   ngOnInit() {
     this.usuarios.push(new Usuario('admin@admin.com', '111111'));
     this.usuarios.push(new Usuario('invitado@invitado.com', '222222'));
     this.usuarios.push(new Usuario('usuario@usuario.com', '333333'));
     this.usuarios.push(new Usuario('tester@tester.com', '555555'));
+
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      // Agrega la acción que deseas realizar cuando se presiona el botón de retroceso   
+    });
   }
 
   async login() {

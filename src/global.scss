@@ -26,6 +26,10 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 
+*{
+    font-size: 1.01em;
+}
+
 ion-loading.custom-class {
     text-align: center;
     // background-color: red; //COLOR DEL MODAL (Atras)
@@ -34,7 +38,7 @@ ion-loading.custom-class {
     --background: #577aa8; //COLOR DE LA CAJA (por delante)
     --spinner-color: #ffffff;
     flex-direction: row-reverse;
-    font-family: cursive;
+    font-family: 'Comic Neue',cursive;
     font-size: 2em;
     color: #ffffff;
     --border-radius: 50px;
