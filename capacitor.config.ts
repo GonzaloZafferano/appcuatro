@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'PruebaApp',
+  appId: 'memoria.starter',
+  appName: 'Memoria',
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {
