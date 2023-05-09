@@ -44,6 +44,8 @@ export class MedioComponent  implements OnInit {
     '/assets/imagenes/pinza.jpg',
     '/assets/imagenes/martillo.png',
     '/assets/imagenes/martillo.png',
+    '/assets/imagenes/serrucho.png',
+    '/assets/imagenes/serrucho.png',
     '/assets/imagenes/pinza.jpg'
   ];
   img: any[] = [];
@@ -153,7 +155,7 @@ export class MedioComponent  implements OnInit {
               this.ultimaImagen = undefined;
               this.cantidadAciertos++;
 
-              if (this.cantidadAciertos == 4) {
+              if (this.cantidadAciertos == 5) {
 
                 //let momentoFin = new Date();
                 this.intervaloActivo.unsubscribe();

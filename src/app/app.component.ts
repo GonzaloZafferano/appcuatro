@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AnimationTriggerMetadata, animate, style, transition, trigger } from '@angular/animations';
 import { FirestoreModule } from '@angular/fire/firestore';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx'; 
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,8 @@ import { FirestoreModule } from '@angular/fire/firestore';
   imports: [IonicModule, HomePage],
 })
 export class AppComponent {
-  constructor(private platform : Platform, private router : Router) {
-   
+  constructor(private screenOrientation: ScreenOrientation, private platform : Platform, private router : Router) {
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT); //BLOQUEO VERTICAL
   }
 
   initializeApp(){

@@ -26,24 +26,46 @@
       </ion-buttons>
     </div>
   </ion-header> 
-  <ion-buttons>
-    <ion-button color="success" fill="solid" shape="round" (click)="facil()" class="button-custom text-dark">Fácil</ion-button>    
-    <ion-button color="success" fill="solid" shape="round" (click)="ganadores()" class="texto-vertical text-dark">
-      <ion-icon name="star"  style="font-size: 3em; color: black;"></ion-icon>
-    </ion-button>    
 
+<ion-fab class="transicion"  [ngClass]="{'ganadores': oculto}" style="position: fixed; margin-top: -50px; margin-left: -4px;">
+  <div class="c-flex" style="background-color: #274690;  font-size: 1.2em; text-align: center; margin: 0px; padding: 0; border-radius: 15px;">
+   
+      <!-- <ion-button color="warning" fill="solid" shape="round" (click)="transicionar()" class="volver text-dark">Volver</ion-button>     -->
+  
+      <ion-button color="warning" fill="solid" shape="round"  (click)="transicionar()">
+        <ion-title class="font-weight-bold text-dark">Volver</ion-title>
+        <!-- <ion-icon size="large" slot="end" name="log-out"></ion-icon> -->
+      </ion-button>
+
+
+
+      <ion-button color="success" fill="solid" shape="round" (click)="ganadores()" class="texto-vertical text-dark">
+        <ion-title class="text-dark title">Ganadores: Fácil</ion-title>
+        <!-- <ion-icon name="star" style="font-size: 3em; color: black;"></ion-icon> -->
+      </ion-button>  
+      <ion-button color="success" fill="solid" shape="round" (click)="ganadoresMedio()" class="texto-vertical text-dark">
+        <ion-title class="text-dark title">Ganadores: Medio</ion-title>
+        <!-- <ion-icon name="star"  style="font-size: 3em; color: black;"></ion-icon> -->
+      </ion-button> 
+      <ion-button color="success" fill="solid" shape="round" (click)="ganadoresDificil()" class="texto-vertical text-dark">
+        <ion-title class="text-dark title">Ganadores: Difícil</ion-title>
+        <!-- <ion-icon name="star"  style="font-size: 3em; color: black;"></ion-icon> -->
+      </ion-button>  
+    </div>
+  </ion-fab> 
+
+
+
+  <ion-buttons>    
+    <ion-button color="success" fill="solid" shape="round" (click)="transicionar()" class="button-ganadores text-dark">Tabla de Ganadores</ion-button>    
+  </ion-buttons>
+  <ion-buttons>    
+    <ion-button color="success" fill="solid" shape="round" (click)="facil()" class="button-custom text-dark">Nivel: Fácil</ion-button>    
   </ion-buttons>
   <ion-buttons>
-    <ion-button color="success" fill="solid" shape="round"  (click)="medio()" class="button-custom text-dark">Medio</ion-button>  
-    <ion-button color="success" fill="solid" shape="round" (click)="ganadoresMedio()" class="texto-vertical text-dark">
-      <ion-icon name="star"  style="font-size: 3em; color: black;"></ion-icon>
-    </ion-button>   
+    <ion-button color="success" fill="solid" shape="round"  (click)="medio()" class="button-custom text-dark">Nivel: Medio</ion-button>  
   </ion-buttons>
-
   <ion-buttons>
-    <ion-button color="success" fill="solid" shape="round" (click)="dificil()" class="button-custom text-dark">Difícil</ion-button> 
-    <ion-button color="success" fill="solid" shape="round" (click)="ganadoresDificil()" class="texto-vertical text-dark">
-      <ion-icon name="star"  style="font-size: 3em; color: black;"></ion-icon>
-    </ion-button>  
+    <ion-button color="success" fill="solid" shape="round" (click)="dificil()" class="button-custom text-dark">Nivel: Difícil</ion-button> 
   </ion-buttons>
 </div>

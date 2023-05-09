@@ -60,15 +60,20 @@ import { LoadingController } from '@ionic/angular';
 //IMPORTAR
 import { Flashlight } from '@awesome-cordova-plugins/flashlight/ngx';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule],
+  imports: [IonicModule,
+    CommonModule,
+    FormsModule,],
   // providers: [Flashlight] //AGREGO ESTO
 })
 export class HomePage implements OnInit {
+  public oculto : boolean = true;
   //INYECTO
   constructor(private loginService: LoginService, private router: Router, public loadingController: LoadingController) { }
   ngOnInit() { }
@@ -165,5 +170,9 @@ export class HomePage implements OnInit {
 
     await loading.present();
     return loading;
+  }
+
+  transicionar(){
+    this.oculto = !this.oculto;
   }
 }

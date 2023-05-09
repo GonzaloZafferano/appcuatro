@@ -46,6 +46,12 @@ export class DificilComponent  implements OnInit {
     '/assets/imagenes/pera.png',
     '/assets/imagenes/frutilla.png',
     '/assets/imagenes/frutilla.png',
+    '/assets/imagenes/melon.png',
+    '/assets/imagenes/melon.png',
+    '/assets/imagenes/uvas.png',
+    '/assets/imagenes/uvas.png',
+    '/assets/imagenes/anana.png',
+    '/assets/imagenes/anana.png',
   ];
   
   img: any[] = [];
@@ -156,7 +162,7 @@ export class DificilComponent  implements OnInit {
               this.ultimaImagen = undefined;
               this.cantidadAciertos++;
 
-              if (this.cantidadAciertos == 5) {
+              if (this.cantidadAciertos == 8) {
 
                 //let momentoFin = new Date();
                 this.intervaloActivo.unsubscribe();
